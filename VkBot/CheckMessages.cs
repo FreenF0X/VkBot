@@ -12,7 +12,10 @@ namespace VkBot
 {
     public class CheckMessages
     {
-        private List<string> finalMessages = new List<string> {"","",""};
+        private string lastMessage = "";
+        private string finalMessage = "";
+        Character character = new Character();
+        
         public void Start(VkApi api)
         {
             while (true)
@@ -23,33 +26,49 @@ namespace VkBot
                     //UserId = 178549456,
                     Offset = 0,
                     Reversed = false,
-                    Count = 3
+                    Count = 2
                 });
 
                 var newMessages = new List<string>();
 
                 foreach (var message in getHistory.Messages)
                 {
-                    newMessages.Add(message.Text);
+                    newMessages.Add(message.Text); 
                 }
 
-                if (newMessages[0] != finalMessages[0] && newMessages[1] != finalMessages[1] && newMessages[2] != finalMessages[2])
+                if (newMessages[0] != lastMessage)
                 {
-                    finalMessages[0] = newMessages[0];
-                    finalMessages[1] = newMessages[1];
-                    finalMessages[2] = newMessages[2];
-                    for (int i = newMessages.Count - 1; i==0;i--)
+                    lastMessage = newMessages[0];
+                    Console.WriteLine("==============================================");
+                    finalMessage = "";
+                    for (int i = newMessages.Count - 1; i>=0; i--)
                     {
-                        Console.WriteLine("==============================================");
-                        Console.WriteLine(finalMessages[i]);
+                        finalMessage += newMessages[i]+"\n";
                     }
-                    //Console.WriteLine("==============================================");
-                    //Console.WriteLine(newMessage);
+                    Console.WriteLine(finalMessage);
                 }
 
+                if (finalMessage.Contains("HP:"))
+                {
+                    string hpString="1/1";
+                    int trophies=0;
+                    string[] subs = finalMessage.Split('\n');
+                    foreach(string sub in subs)
+                    {
+                        if (sub.Contains("HP:"))
+                        {
+                            hpString = sub.Substring(sub.IndexOf("HP: ") + 4);
+                        }
+                        if (sub.Contains("Трoфеев:"))
+                        {
+                            trophies = int.Parse(sub.Substring(sub.IndexOf("Трoфеев: ") + 9));
+                        }
+                    }
+                    character.SetHP(hpString);
+                    character.Trophies = trophies;
+                }
 
-
-                System.Threading.Thread.Sleep(3000);
+                System.Threading.Thread.Sleep(5000);
             }
         }
 

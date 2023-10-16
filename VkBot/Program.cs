@@ -14,9 +14,7 @@ namespace VkBot
 
         static async Task Main()
         {
-            StreamReader sr = new StreamReader("token.txt");
-            string token = sr.ReadToEnd();
-            sr.Close();
+            
 
             var user = new UserData();
 
@@ -24,6 +22,10 @@ namespace VkBot
 
             try
             {
+                StreamReader sr = new StreamReader("token.txt");
+                string token = sr.ReadToEnd();
+                sr.Close();
+
                 api.Authorize(new ApiAuthParams
                 {
                     AccessToken = token
@@ -47,8 +49,8 @@ namespace VkBot
                 sw.Close();
             }
 
-            //var checkMess = new CheckMessages();
-            //checkMess.Start(api);
+            var checkMess = new CheckMessages();
+            checkMess.Start(api);
 
             //var getLongPollServer = api.Messages.GetLongPollServer(true);
 
