@@ -100,9 +100,9 @@ namespace VkBot
 
             //api.Messages.Send(new VkNet.Model.MessagesSendParams
             //{
-            //    RandomId = 1232345235, // уникальный
+            //    RandomId = 0, // уникальный
             //    PeerId = -182985865,
-            //    Message = "!?"
+            //    Message = "работает?"
             //});
 
 

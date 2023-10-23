@@ -8,8 +8,8 @@ namespace VkBot
 {
     public class Character
     {
-        float maxHP;
-        float actualHP;
+        double maxHP;
+        double actualHP;
         public int Trophies { get; set; }
 
         public void SetHP(string hpString)//hpString должен быть формата "103/124"
@@ -18,9 +18,19 @@ namespace VkBot
             maxHP = int.Parse(hpString.Substring(hpString.IndexOf("/")+1));
         }
 
-        public bool HPisNormal()
+        public bool HpIsNormal()
         {
             return actualHP/maxHP>0.3;
+        }
+
+        public bool TrophiesIsNormal() 
+        { 
+            return Trophies < 50; 
+        }
+
+        public bool PotionIsNeed()
+        {
+            return maxHP - actualHP > 60;
         }
     }
 }
